@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=pageTitle%></title>
+    <meta content="<%=csrf%>" name="csrf-token">
+</head>
+<body>
+    邮箱：<input type="email" id="email" value="1355438040@qq.com"> <br/>
+    密码：<input type="password" id="pass" value="123456"> <br/>
+    确认密码：<input type="password" id="re_pass" value="123456"> <br/>
+    <button onclick="register()">提交</button>
+    <script>
+        function $(Selector){
+            return document.querySelector(Selector)
+        }
+        function register(){
+            fetch('register',{
+                body:JSON.stringify({
+                    "email":$('#email').value,
+                    'pass': $('#pass').value,
+                    're_pass': $('#re_pass').value
+                }),
+                headers:{
+                    'csrf-token':$('[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                method:'POST',
+            }).then(response => response.json())
+            .then(data => {
+                console.log('data',data)
+                if(data.errorCode){
+                    alert(data.errorMessage)
+                }
+            }) 
+            .catch(error => console.error('error',error))
+        }
+    </script>
+</body>
+</html>
