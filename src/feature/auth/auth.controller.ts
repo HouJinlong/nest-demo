@@ -1,7 +1,6 @@
 import { Controller, Get, Render,Post,Body} from '@nestjs/common';
 import { AuthService } from "./auth.service";
-import { ViewsPath } from "src/core/enums";
-import { RegisterDto,LoginDto} from "./dto";
+import { RegisterDto,PassLoginDto,ActiveAccountDto} from "./dto";
 
 @Controller('auth')
 export class AuthController {
@@ -9,7 +8,7 @@ export class AuthController {
         private readonly authService: AuthService
     ) {}
     @Get()
-    @Render(ViewsPath.Register)
+    @Render('auth/register')
     async registerView(){
         return { pageTitle: '注册'};
     }
@@ -18,8 +17,19 @@ export class AuthController {
     async registerApi(@Body() register: RegisterDto) {
         return await this.authService.register(register);
     }
+    @Get('/active_account')
+    @Render('auth/active_account')
+    async activeAccountView(){
+        return { pageTitle: '激活账号'};
+    }
+
+    @Post('/active_account')
+    async activeAccountApi(@Body() data: ActiveAccountDto){
+        return await this.authService.activeAccount(data);
+    }
+
     @Post('/login')
-    async loginApi(@Body() data:LoginDto) {
+    async loginApi(@Body() data:PassLoginDto) {
         return await this.authService.login(data);
     }
 }

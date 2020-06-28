@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=pageTitle%></title>
+    <meta content="<%=csrf%>" name="csrf-token">
+</head>
+<body>
+    <div id="name"></div>
+    <button onclick="fun()">激活</button>
+   <script>
+       var data ={}
+      location.search.slice(1).split('&').forEach(v=>{
+           var param = v.split('=')
+           data[param[0]] = decodeURIComponent(param[1])
+       })
+       function $(Selector){
+            return document.querySelector(Selector)
+        }
+        $('#name').innerText = data.name;
+       function fun(){
+            fetch('/auth/active_account',{
+                body:JSON.stringify({
+                    "key":data.key,
+                }),
+                headers:{
+                    'csrf-token':$('[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                method:'POST',
+            }).then(response => response.json())
+            .then(data => {
+                console.log('data',data)
+                if(data.errorCode){
+                    alert(data.errorMessage)
+                }
+            }) 
+            .catch(error => console.error('error',error))
+       }
+   </script>
+</body>
+</html>

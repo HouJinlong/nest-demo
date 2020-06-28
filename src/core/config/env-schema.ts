@@ -2,17 +2,24 @@ import * as Joi from '@hapi/joi';
 
 const string = Joi.string();
 const number = Joi.number();
-const boolean = Joi.boolean();
 
 export default Joi.object({
     NODE_ENV: string.valid('development', 'production', 'test').default('development'),
     PORT: number.default(3000),
     HOST: string.hostname().default('localhost'),
-    SUPER_ADMIN: string.empty('').default('super_admin'),
-    STATIC_HOST: string.empty('').default(''),
-    MINI_ASSETS: boolean.default(false),
+    //system
     SESSION_SECRET: string.default('cnode'),
-    AUTH_COOKIE_NAME: string.default('nest_cnode'),
+    SUPER_ADMIN: string.default('super_admin'),
+    // 邮件模块
+    MAIL_HOST: string.hostname().required(),
+    MAIL_PORT: number.required(),
+    MAIL_USER: string.email().required(),
+    MAIL_PASS: string.required(),
+    //redis配置验证
+    REDIS_HOST:string.hostname().default('localhost'),
+    REDIS_PORT:number.default(6379),
+    REDIS_PASSWORD:string.empty('').default(''),
+    REDIS_DB:number.default(0),
     // mongodb配置验证
     MONGO_HOST: string.hostname().default('localhost'),
     MONGO_PORT: number.default(27017),

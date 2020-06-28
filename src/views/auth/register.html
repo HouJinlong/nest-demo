@@ -7,20 +7,43 @@
     <meta content="<%=csrf%>" name="csrf-token">
 </head>
 <body>
+    用户名：<input type="text" id="name" value=""> <br/>
     邮箱：<input type="email" id="email" value="1355438040@qq.com"> <br/>
     密码：<input type="password" id="pass" value="123456"> <br/>
     确认密码：<input type="password" id="re_pass" value="123456"> <br/>
     <button onclick="register()">提交</button>
+    <button onclick="login()">登录</button>
     <script>
         function $(Selector){
             return document.querySelector(Selector)
         }
         function register(){
-            fetch('register',{
+            fetch('/auth/register',{
                 body:JSON.stringify({
+                    "name":$('#name').value,
                     "email":$('#email').value,
                     'pass': $('#pass').value,
                     're_pass': $('#re_pass').value
+                }),
+                headers:{
+                    'csrf-token':$('[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                method:'POST',
+            }).then(response => response.json())
+            .then(data => {
+                console.log('data',data)
+                if(data.errorCode){
+                    alert(data.errorMessage)
+                }
+            }) 
+            .catch(error => console.error('error',error))
+        }
+        function login(){
+            fetch('/auth/login',{
+                body:JSON.stringify({
+                    "email":$('#email').value,
+                    'pass': $('#pass').value
                 }),
                 headers:{
                     'csrf-token':$('[name="csrf-token"]').content,

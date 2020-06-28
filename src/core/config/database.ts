@@ -1,7 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { getEnv, getEnvNumber } from './utils';
+import { MongoConfig } from './interfaces';
 
-export default registerAs('database', () => {
+export default registerAs('database', ():MongoConfig => {
     const host = getEnv('MONGO_HOST');
     const port = getEnvNumber('MONGO_PORT');
     const user = getEnv('MONGO_USER');
@@ -13,14 +14,6 @@ export default registerAs('database', () => {
         url+=`${user}:${pass}@`
     }
     url+=`${host}:${port}/${dbs}`
-    console.log({
-        host,
-        port,
-        user,
-        pass,
-        dbs,
-        url
-    })
     return {
         host,
         port,

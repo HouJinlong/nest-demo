@@ -28,7 +28,12 @@ export class User extends BaseModel {
 
     @prop({
         type: Schema.Types.String,
-        required:false
     })
     avatar: string;
+
+    @prop({
+        type: Schema.Types.Boolean,
+        default:false
+    })
+    active: boolean;
 }
