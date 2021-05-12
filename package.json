@@ -39,7 +39,7 @@
     "express-session": "^1.17.1",
     "ioredis": "^4.17.3",
     "mongoose": "^5.9.20",
-    "nodemailer": "^6.4.10",
+    "nodemailer": "^6.4.16",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
